@@ -1,0 +1,98 @@
+- name: update & install
+  hosts: all
+  become: true
+
+  vars:
+    packages:
+      - python3-devel
+      - openssl-devel
+      - protobuf-devel
+      - bash-completion
+      - wireguard-tools
+      - git
+      - htop
+      - vim
+      - readline-devel
+      - libffi-devel
+      - bzip2-devel
+      - ncurses-devel
+      - sqlite-devel
+      - xz-devel
+      - gcc
+      - g++
+      - make
+      - cmake
+      - gmp-devel
+    modules:
+      - ipython
+      - pipx
+      - pipenv
+
+  tasks:
+    - name: upgrade all packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+
+    - name: install development tools
+      ansible.builtin.shell: sudo dnf -y groupinstall 'Development Tools'
+
+    - name: install packages
+      ansible.builtin.dnf:
+        name: "{{ packages }}"
+        state: latest
+
+    - name: install python modules
+      ansible.builtin.pip:
+        name: "{{ modules }}"
+        state: present
+
+    - name: reboot
+      ansible.builtin.reboot:
+
+- name: install & configure basic software
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Add NVIDIA repo
+      ansible.builtin.shell: dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/fedora37/x86_64/cuda-fedora37.repo
+
+    - name: Perform dnf clean
+      ansible.builtin.shell: dnf clean all
+
+    - name: Install nvidia-driver
+      ansible.builtin.shell: dnf -y module install nvidia-driver:latest-dkms
+
+    - name: install cuda
+      ansible.builtin.dnf:
+        name: cuda
+        state: latest
+
+    - name: reboot
+      ansible.builtin.reboot:
+
+- name: create user
+  hosts: all
+  become: true
+
+  vars:
+    username: neo
+    pubkeypath: ./neo-id.pub
+
+  tasks:
+    - name: add new user
+      ansible.builtin.user:
+        append: true
+        groups:
+          - wheel
+        create_home: true
+        name: "{{ username }}"
+        shell: /bin/bash
+        state: present
+
+    - name: Set authorized key taken from file
+      ansible.posix.authorized_key:
+        key: "{{ lookup('file', pubkeypath) }}"
+        state: present
+        user: "{{ username }}"
