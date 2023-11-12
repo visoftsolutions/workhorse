@@ -23,6 +23,7 @@
       - make
       - cmake
       - gmp-devel
+      - nodejs
     modules:
       - ipython
       - pipx
