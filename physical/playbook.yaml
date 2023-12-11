@@ -20,6 +20,7 @@
       - xz-devel
       - gcc
       - g++
+      - clang-devel
       - make
       - cmake
       - gmp-devel
