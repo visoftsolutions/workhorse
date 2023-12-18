@@ -26,6 +26,8 @@
       - gmp-devel
       - nodejs
       - java-17-openjdk-devel
+      - "@C Development Tools and Libraries"
+      - "@Development Tools"
     modules:
       - ipython
       - pipx
@@ -36,9 +38,6 @@
       ansible.builtin.dnf:
         name: "*"
         state: latest
-
-    - name: install development tools
-      ansible.builtin.shell: sudo dnf -y groupinstall 'Development Tools'
 
     - name: install packages
       ansible.builtin.dnf:
