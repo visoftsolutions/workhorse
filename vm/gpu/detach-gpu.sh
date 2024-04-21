@@ -13,4 +13,4 @@ sudo driverctl set-override 0000:4b:00.1 vfio-pci
 sudo reboot
 
 sudo vagrant up
-sudo virsh attach-device workhorse_visoft_workhorse --file gpu-assign.xml --persistent
+sudo virsh attach-device workhorse_workhorse --file gpu-assign.xml --persistent
