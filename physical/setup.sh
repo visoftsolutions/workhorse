@@ -2,7 +2,7 @@
 # BIOS SVM Mode [Disabled] -> [Enabled]
 
 sudo dnf install qemu-kvm-core libvirt virt-install cockpit-machines guestfs-tools
-sudo systemctl enable libvirtd  --now
+sudo systemctl enable libvirtd --now
 
 sudo dnf -y install vagrant
 
