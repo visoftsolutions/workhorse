@@ -4,11 +4,15 @@
 
   vars:
     packages:
+      - "@C Development Tools and Libraries"
+      - "@Development Tools"
+      - gmp-devel
+      - java-21-openjdk-devel
       - python3-devel
+      - nodejs
       - openssl-devel
       - protobuf-devel
       - bash-completion
-      - wireguard-tools
       - git
       - htop
       - vim
@@ -18,16 +22,6 @@
       - ncurses-devel
       - sqlite-devel
       - xz-devel
-      - gcc
-      - g++
-      - clang-devel
-      - make
-      - cmake
-      - gmp-devel
-      - nodejs
-      - java-17-openjdk-devel
-      - "@C Development Tools and Libraries"
-      - "@Development Tools"
     modules:
       - ipython
       - pipx
@@ -58,7 +52,7 @@
 
   tasks:
     - name: Add NVIDIA repo
-      ansible.builtin.shell: dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/fedora37/x86_64/cuda-fedora37.repo
+      ansible.builtin.shell: dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/fedora39/x86_64/cuda-fedora39.repo
 
     - name: Perform dnf clean
       ansible.builtin.shell: dnf clean all
